@@ -54,6 +54,21 @@ frappe.ui.form.on("Sales Order", {
 	},
 
 	refresh: function (frm) {
+		frm.add_custom_button(__('Get ABN AMRO Token'), function() {
+            frappe.call({
+				freeze: true,
+				freeze_message: __("This may take a few seconds..."),
+                callback: function(r) {
+                    if (r.message) {
+                        frappe.msgprint({
+                            title: __('ABN AMRO Token'),
+                            message: __('The token is: ') + r.message,
+                            indicator: 'green'
+                        });
+                    }
+                }
+            });
+        });
 		if (frm.doc.docstatus === 1) {
 			if (
 				frm.doc.status !== "Closed" &&
